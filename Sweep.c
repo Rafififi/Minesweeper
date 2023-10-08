@@ -86,7 +86,8 @@ int countAdjacentBombs(char board2[size][size], char board[size][size], int x, i
                     //Check if all of the nearby tiles have a bomb
                     {
                         bombCount++; 
-                        //This is the amount of bombs nearby
+                        //This is the amount of bombs nearby 
+                        
                     }
                 }
             }
