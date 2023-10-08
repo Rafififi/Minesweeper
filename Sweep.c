@@ -206,24 +206,29 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
             }
             else
             {
-                printf("invalid input\n");
+                printf("Error 1\n");
                 int c;
                 while ((c = getchar()) != '\n' && c != EOF){}
-                continue;;
+                continue;
             }
         }
     }
     return gameOver;
 }
+void startGame(char board[size][size], char board2[size][size])
+{
+    Randomize();
+    Create_Field(board);
+    printBoard(board);
+    Place_Bombs(board2);
+}
+
 int main()
 {
     int gameOver = 0;
     char board[size][size];
     char board2[size][size];
-    Randomize();
-    Create_Field(board);
-    printBoard(board);
-    Place_Bombs(board2);
+    startGame(board, board2);
     while (gameOver == 0)
     {
         gameOver = actualGame(gameOver, board, board2);
