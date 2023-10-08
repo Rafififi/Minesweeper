@@ -86,8 +86,7 @@ int countAdjacentBombs(char board2[size][size], char board[size][size], int x, i
                     //Check if all of the nearby tiles have a bomb
                     {
                         bombCount++; 
-                        //This is the amount of bombs nearby 
-                        
+                        //This is the amount of bombs nearby                         
                     }
                 }
             }
@@ -202,6 +201,7 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
                 else
                 {
                     countAdjacentBombs(board2, board, 99, 99, gameOver);
+                    continue;
                 }
             }
             else
@@ -209,7 +209,7 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
                 printf("invalid input\n");
                 int c;
                 while ((c = getchar()) != '\n' && c != EOF){}
-                break;
+                continue;;
             }
         }
     }
