@@ -1,2 +1,2 @@
 # Minesweeper
-Minesweeper in termina;
+Minesweeper in terminal
