@@ -4,7 +4,7 @@
 #include <time.h>
 
 #define size 10
-#define bombs 15
+#define bombs 99
 int remainingCells=((size * size) - bombs);
 
 void Place_Bombs(char board[size][size])
@@ -183,15 +183,21 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
                     gameOver = countAdjacentBombs(board2, board, x, y, gameOver);
                     // Taking gameOver from the function to end or continue the game
                     int c;
-                    while ((c = getchar()) != '\n' && c != EOF)
-                    {
-                    }
+                    while ((c = getchar()) != '\n' && c != EOF){}
                     // This clears the inputs that are stored on scanf
                     if (gameOver == 1)
                     // This is the loosing condition, if this occurs the game is over
                     {
                         printBoard(board2);
                         printf("GAME OVER\n");
+                    }
+                    else if (remainingCells == 0)
+                    // This is the win condition that checks if the game is over
+                    {
+                        printBoard(board2);
+                        printf("YOU WIN!!\n");
+                        gameOver = 1;
+                        break;
                     }
                     else
                     {
@@ -208,13 +214,6 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
                     continue;
                 }
             }
-            else
-            {
-                printf("Error 1\n");
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF){}
-                continue;
-            }
         }
     }
     return gameOver;
@@ -225,6 +224,7 @@ void startGame(char board[size][size], char board2[size][size])
     Create_Field(board);
     printBoard(board);
     Place_Bombs(board2);
+    printBoard(board2);
 }
 
 int main()
@@ -235,15 +235,7 @@ int main()
     startGame(board, board2);
     while (gameOver == 0)
     {
-        if (remainingCells == 0)
-        // This is the win condition that checks if the game is over
-        {
-            printBoard(board2);
-            printf("YOU WIN!!\n");
-            gameOver = 1;
-            break;
-        }
-        gameOver = actualGame(gameOver, board, board2);
+       gameOver = actualGame(gameOver, board, board2);
     }
     return 0;
 }
