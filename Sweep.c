@@ -172,6 +172,8 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
             if (choice > 2 || choice < 2)
             {
                 countAdjacentBombs(board2, board, 99, 99, gameOver);
+                printBoard(board);
+                remainingCells--;
             }
             else if (choice == 2)
             //take input, and make sure there are 2 inputs
@@ -201,6 +203,8 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
                 else
                 {
                     countAdjacentBombs(board2, board, 99, 99, gameOver);
+                    printBoard(board);
+                    remainingCells--;
                     continue;
                 }
             }
@@ -231,6 +235,14 @@ int main()
     startGame(board, board2);
     while (gameOver == 0)
     {
+        if (remainingCells == 0)
+        // This is the win condition that checks if the game is over
+        {
+            printBoard(board2);
+            printf("YOU WIN!!\n");
+            gameOver = 1;
+            break;
+        }
         gameOver = actualGame(gameOver, board, board2);
     }
     return 0;
