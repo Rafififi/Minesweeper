@@ -181,6 +181,8 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
                 if((x>=0 && x <= 9) && (y>=0 && y <= 9))
                 { // Take input from the player
                     gameOver = countAdjacentBombs(board2, board, x, y, gameOver);
+                    remainingCells--;
+
                     // Taking gameOver from the function to end or continue the game
                     int c;
                     while ((c = getchar()) != '\n' && c != EOF){}
@@ -197,12 +199,10 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
                         printBoard(board2);
                         printf("YOU WIN!!\n");
                         gameOver = 1;
-                        break;
                     }
                     else
                     {
                         printBoard(board);
-                        remainingCells--;
                         // reduce the number of remaing cells
                     }
                 }
@@ -210,6 +210,7 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
                 {
                     countAdjacentBombs(board2, board, 99, 99, gameOver);
                     printBoard(board);
+                    printf("this one");
                     remainingCells--;
                     continue;
                 }
