@@ -4,7 +4,7 @@
 #include <time.h>
 
 #define size 10
-#define bombs 99
+#define bombs 15
 int remainingCells=((size * size) - bombs);
 
 void Place_Bombs(char board[size][size])
@@ -171,9 +171,10 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
             int choice = scanf("%d %d", &x, &y);
             if (choice > 2 || choice < 2)
             {
-                countAdjacentBombs(board2, board, 99, 99, gameOver);
-                printBoard(board);
-                remainingCells--;
+                printf("Not enough inputs");
+                int c;
+                while ((c = getchar()) != '\n' && c != EOF){}
+                break;
             }
             else if (choice == 2)
             //take input, and make sure there are 2 inputs
@@ -225,7 +226,6 @@ void startGame(char board[size][size], char board2[size][size])
     Create_Field(board);
     printBoard(board);
     Place_Bombs(board2);
-    printBoard(board2);
 }
 
 int main()
