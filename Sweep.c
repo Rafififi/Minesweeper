@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <time.h>
 
 #define size 10
 #define bombs 15
-int remainingCells=((size * size) - bombs);
+int remainingCells = ((size * size) - bombs);
 
-void Place_Bombs(char board[size][size])
-//This will make a board that is hidden from the player which allows the code to scan for bombs
+void placeBombs(char board[size][size])
+// This will make a board that is hidden from the player which allows the code to scan for bombs
 {
     for (int i = 0; i < size; i++)
     {
@@ -19,104 +18,106 @@ void Place_Bombs(char board[size][size])
         }
     }
     int point = 0;
-    int x;
-    int y;
-    while(point < bombs)
+    int xPos;
+    int yPos;
+    while (point < bombs)
     {
-        x = rand() % (9 + 1);
-        y = rand() % (9 + 1);
-        //printf("%d %d\n", x, y);
-        //set up the x and y values
-        if (board[x][y] != 'X')
-        //Make sure that only one bomb is placed in this spot
+        xPos = rand() % (9 + 1);
+        yPos = rand() % (9 + 1);
+        // set up the x and y values of the bombs
+        if (board[xPos][yPos] != 'X')
+        // Make sure that only one bomb is placed in this spot
         {
-            board[x][y] = 'X';
+            board[xPos][yPos] = 'X';
             point++;
         }
     }
 }
-void Create_Field(char board[size][size])
+void createField(char board[size][size])
 {
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
         {
             board[i][j] = '-';
-            //Fill whole board with dashes
+            // Fill whole board with dashes
         }
     }
-    //Nothing needs to be returned as everything is printed here
+    // Nothing needs to be returned as everything is printed here
 }
 
-void Randomize()
+void randomize()
 {
     time_t seconds;
-    //Initialize time
+    // Initialize time
     seconds = time(NULL);
-    //get time based on unix time
+    // get time based on unix time
     srand((unsigned)seconds);
-    //make randomization seed using unix time for good randomization
-    //Don't need to return anything to allow the randomization seed to work
-
+    // make randomization seed using unix time for good randomization
+    // Don't need to return anything to allow the randomization seed to work
 }
 
-int countAdjacentBombs(char board2[size][size], char board[size][size], int x, int y, int gameOver)
+int countAdjacentBombs(char board2[size][size], char board[size][size], int xPos, int yPos, int gameOver)
 {
     int bombCount = 0;
-    if (board2[y][x] == 'X')
+    // bombCount is the number of bombs around the selected point
+    if (board2[yPos][xPos] == 'X')
     {
-        //This checks if the players has placed chosen a bomb as there coordinate
+        // This checks if the players has placed chosen a bomb as there coordinate
         gameOver = 1;
     }
-    else if (board2[y][x] == '-')
+    else if (board2[yPos][xPos] == '-')
     {
         for (int i = -1; i <= 1; i++)
         //-1 to 1 so that it checks one to the left and to the right as well as up and down
         {
             for (int j = -1; j <= 1; j++)
             {
-                if (y + i < 0 || y + i > 9 || x + j < 0 || x + j > 9)
-                //Check if that tile is off of the board, if it is ignore it
+                if (yPos + i < 0 || yPos + i > 9 || xPos + j < 0 || xPos + j > 9)
+                // Check if that tile is off of the board, if it is ignore it
                 {
                     continue;
                 }
                 else
                 {
-                    if (board2[y + i][x + j] == 'X')
-                    //Check if all of the nearby tiles have a bomb
+                    if (board2[yPos + i][xPos + j] == 'X')
+                    // Check if all of the nearby tiles have a bomb
                     {
-                        bombCount++; 
-                        //This is the amount of bombs nearby                         
+                        bombCount++;
+                        // This is the amount of bombs nearby
                     }
                 }
             }
         }
-        //update both the shown and hidden board so that player can see what number it is and what it looks like when they win/lose
-        board[y][x] = bombCount + '0';
-        board2[y][x] = bombCount + '0';
-        //Changes the point on the board to the number of bomvs nearby the + '0' makes it a char
+        // update both the shown and hidden board so that player can see what number it is and what it looks like when they win/lose
+        board[yPos][xPos] = bombCount + '0';
+        board2[yPos][xPos] = bombCount + '0';
+        // Changes the point on the board to the number of bomvs nearby the + '0' makes it a char
     }
     else
     {
+        // This will occur if the x and y coordinates are out the range of the board
         printf("invalid input\n");
         remainingCells++;
         int c;
-        while ((c = getchar()) != '\n' && c != EOF){}
-        // This clears the inputs that are stored on scanf
+        while ((c = getchar()) != '\n' && c != EOF)
+        {
+        }
+        // Clears the input buffer gotten from stack overflow (https://stackoverflow.com/questions/7898215/how-can-i-clear-an-input-buffer-in-c)
     }
     return gameOver;
-    //Make sure that the game ends
+    // Make sure that the game ends
 }
 void printBoard(char board[size][size])
 {
     int topRow[size];
-    for (int i = 0; i <= size; i++)
+    for (int i = 0; i < size; i++)
     {
         topRow[i] = i;
         // Create the top row of the game in integers
     }
     int sideRow[size];
-    for (int i = 0; i <= size; i++)
+    for (int i = 0; i < size; i++)
     {
         sideRow[i] = i;
         // Create the side row of the game in integers
@@ -154,12 +155,12 @@ void printBoard(char board[size][size])
 
 int actualGame(int gameOver, char board[size][size], char board2[size][size])
 {
-    int x;
-    int y;
+    int xPos;
+    int yPos;
     while (gameOver == 0)
     {
         if (remainingCells == 0)
-        //This is the win condition that checks if the game is over
+        // This is the win condition that checks if the game is over
         {
             printBoard(board2);
             printf("YOU WIN!!\n");
@@ -167,76 +168,78 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
         }
         else
         {
-            printf("Put x and y coordinates you want to choose using integers with a space seperating them\n");
-            int choice = scanf("%d %d", &x, &y);
+            printf("Put x and y coordinates with a space seprating them: ");
+            int choice = scanf("%d %d", &xPos, &yPos);
             if (choice > 2 || choice < 2)
             {
-                printf("Not enough inputs");
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF){}
-                break;
+                countAdjacentBombs(board2, board, 99, 99, gameOver);
             }
             else if (choice == 2)
-            //take input, and make sure there are 2 inputs
+            // take input, and make sure there are 2 inputs
             {
-                if((x>=0 && x <= 9) && (y>=0 && y <= 9))
-                { // Take input from the player
-                    gameOver = countAdjacentBombs(board2, board, x, y, gameOver);
-                    remainingCells--;
-
+                // Take input from the player
+                if ((xPos >= 0 && xPos <= 9) && (yPos >= 0 && yPos <= 9))
+                {
+                    // If in range of board goes here
+                    gameOver = countAdjacentBombs(board2, board, xPos, yPos, gameOver);
                     // Taking gameOver from the function to end or continue the game
                     int c;
-                    while ((c = getchar()) != '\n' && c != EOF){}
-                    // This clears the inputs that are stored on scanf
+                    while ((c = getchar()) != '\n' && c != EOF)
+                    {
+                    }
+                    // Clears the input buffer gotten from stack overflow (https://stackoverflow.com/questions/7898215/how-can-i-clear-an-input-buffer-in-c)
                     if (gameOver == 1)
                     // This is the loosing condition, if this occurs the game is over
                     {
                         printBoard(board2);
                         printf("GAME OVER\n");
                     }
-                    else if (remainingCells == 0)
-                    // This is the win condition that checks if the game is over
-                    {
-                        printBoard(board2);
-                        printf("YOU WIN!!\n");
-                        gameOver = 1;
-                    }
                     else
                     {
                         printBoard(board);
+                        remainingCells--;
                         // reduce the number of remaing cells
                     }
                 }
                 else
                 {
                     countAdjacentBombs(board2, board, 99, 99, gameOver);
-                    printBoard(board);
-                    printf("this one");
-                    remainingCells--;
-                    continue;
+                    // if the answer is outside of the range of the board inputs outside of range
                 }
+            }
+            else
+            {
+                printf("invalid input\n");
+                int c;
+                while ((c = getchar()) != '\n' && c != EOF)
+                {
+                }
+                break;
+                // Clears the input buffer gotten from stack overflow (https://stackoverflow.com/questions/7898215/how-can-i-clear-an-input-buffer-in-c)
             }
         }
     }
     return gameOver;
 }
-void startGame(char board[size][size], char board2[size][size])
-{
-    Randomize();
-    Create_Field(board);
-    printBoard(board);
-    Place_Bombs(board2);
-}
-
 int main()
 {
     int gameOver = 0;
     char board[size][size];
     char board2[size][size];
-    startGame(board, board2);
+    randomize();
+    // get a randomizer seed
+    createField(board);
+    // Make a board of all dashes
+    printBoard(board);
+    // print out the board with all dashes
+    placeBombs(board2);
+    // Create a second board that will hold all the bombs hidden from the player
+    // printBoard(board2); // Uncomment this to print answers
+
     while (gameOver == 0)
     {
-       gameOver = actualGame(gameOver, board, board2);
+        gameOver = actualGame(gameOver, board, board2);
+        // Make sure the game continues until winning or losing
     }
     return 0;
 }
