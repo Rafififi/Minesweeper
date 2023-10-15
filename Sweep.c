@@ -174,7 +174,7 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
                 //The 99 makes it so that it does not break due to non integers
             }
             else
-            // take input, and make sure there are 2 inputs
+            // take input, and make sure there are 2 inputs 
             {
                 // Take input from the player
                 // If in range of board goes here
