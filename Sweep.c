@@ -97,7 +97,7 @@ int countAdjacentBombs(char board2[size][size], char board[size][size], int xPos
     else
     {
         // This will occur if the x and y coordinates are out the range of the board
-        printf("invalid input\n");
+        printf("input already done or outside of range\n");
         remainingCells++;
         int c;
         while ((c = getchar()) != '\n' && c != EOF){}
@@ -171,14 +171,21 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
             if (choice > 2 || choice < 2)
             {
                 countAdjacentBombs(board2, board, 99, 99, gameOver);
+                //The 99 makes it so that it does not break due to non integers
             }
-            else if (choice == 2)
+            else
             // take input, and make sure there are 2 inputs
             {
                 // Take input from the player
-                if ((xPos >= 0 && xPos <= 9) && (yPos >= 0 && yPos <= 9))
+                // If in range of board goes here
+                if (board2[yPos][xPos] != 'X' && board2[yPos][xPos] != '-')
                 {
-                    // If in range of board goes here
+                    //Makes sure that this input has not already been inputted
+                    countAdjacentBombs(board2, board, xPos, yPos, gameOver);
+                    remainingCells--;
+                }
+                else
+                {
                     gameOver = countAdjacentBombs(board2, board, xPos, yPos, gameOver);
                     // Taking gameOver from the function to end or continue the game
                     int c;
@@ -190,6 +197,7 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
                         printBoard(board2);
                         printf("GAME OVER\n");
                     }
+                    
                     else
                     {
                         printBoard(board);
@@ -197,19 +205,6 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
                         // reduce the number of remaing cells
                     }
                 }
-                else
-                {
-                    countAdjacentBombs(board2, board, 99, 99, gameOver);
-                    // if the answer is outside of the range of the board inputs outside of range
-                }
-            }
-            else
-            {
-                printf("invalid input\n");
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF){}
-                break;
-                // Clears the input buffer gotten from stack overflow (https://stackoverflow.com/questions/7898215/how-can-i-clear-an-input-buffer-in-c)
             }
         }
     }
@@ -220,6 +215,7 @@ int main()
     int gameOver = 0;
     char board[size][size];
     char board2[size][size];
+    //Initialize both the shown and hidden board as well as gameOver
     randomize();
     // get a randomizer seed
     createField(board);
@@ -228,8 +224,7 @@ int main()
     // print out the board with all dashes
     placeBombs(board2);
     // Create a second board that will hold all the bombs hidden from the player
-    // printBoard(board2); // Uncomment this to print answers
-
+    //printBoard(board2); // Uncomment this to print answers
     while (gameOver == 0)
     {
         gameOver = actualGame(gameOver, board, board2);
