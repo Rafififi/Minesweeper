@@ -100,9 +100,7 @@ int countAdjacentBombs(char board2[size][size], char board[size][size], int xPos
         printf("invalid input\n");
         remainingCells++;
         int c;
-        while ((c = getchar()) != '\n' && c != EOF)
-        {
-        }
+        while ((c = getchar()) != '\n' && c != EOF){}
         // Clears the input buffer gotten from stack overflow (https://stackoverflow.com/questions/7898215/how-can-i-clear-an-input-buffer-in-c)
     }
     return gameOver;
@@ -184,9 +182,7 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
                     gameOver = countAdjacentBombs(board2, board, xPos, yPos, gameOver);
                     // Taking gameOver from the function to end or continue the game
                     int c;
-                    while ((c = getchar()) != '\n' && c != EOF)
-                    {
-                    }
+                    while ((c = getchar()) != '\n' && c != EOF){}
                     // Clears the input buffer gotten from stack overflow (https://stackoverflow.com/questions/7898215/how-can-i-clear-an-input-buffer-in-c)
                     if (gameOver == 1)
                     // This is the loosing condition, if this occurs the game is over
@@ -211,9 +207,7 @@ int actualGame(int gameOver, char board[size][size], char board2[size][size])
             {
                 printf("invalid input\n");
                 int c;
-                while ((c = getchar()) != '\n' && c != EOF)
-                {
-                }
+                while ((c = getchar()) != '\n' && c != EOF){}
                 break;
                 // Clears the input buffer gotten from stack overflow (https://stackoverflow.com/questions/7898215/how-can-i-clear-an-input-buffer-in-c)
             }
