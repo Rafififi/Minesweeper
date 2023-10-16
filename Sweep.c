@@ -22,9 +22,9 @@ void placeBombs(char board[size][size]) // This will make a board that is hidden
         yPos = rand() % (9 + 1);
         // set up the x and y values of the bombs
 
-        if (board[xPos][yPos] != 'X') // Make sure that only one bomb is placed in this spot
+        if (board[yPos][xPos] != 'X') // Make sure that only one bomb is placed in this spot
         {
-            board[xPos][yPos] = 'X';
+            board[yPos][xPos] = 'X';
             bombsNearSpot++;
         }
     }
@@ -197,6 +197,6 @@ int main()
     // print out the board with all dashes
     placeBombs(board2); 
     // Create a second board that will hold all the bombs hidden from the player
-    // printBoard(board2); // Uncomment this to print answers
+    //printBoard(board2); // Uncomment this to print answers
     actualGame(gameOver, board, board2);    
 }
